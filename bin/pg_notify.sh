@@ -5,6 +5,13 @@ while [ ! -f 0.txt ]; do
 done
 
 for N in $(seq 1 1000); do
-    psql -d stat -U stat -c "notify lista, 'Terminal $$, Mensagem: $N';"
+#    psql --echo-all \
+#         --dbname template1 \
+#         --user postgres \
+#         --command "notify lista, '{ "Terminal": "$$", "Mensagem": "$N" }';"
+    psql --echo-all \
+         --dbname stat \
+         --user stat \
+         --command "notify lista, '{ "Terminal": "$$", "Mensagem": "$N" }';"
 done
 
