@@ -26,6 +26,7 @@ public class PostgreSQLasMQ {
             propriedades.load(new FileReader("conexao.properties"));
             String url = propriedades.getProperty("url", "jdbc:postgresql://localhost/template1");
             String lista = propriedades.getProperty("list", "geral");
+            int espera = Integer.parseInt(propriedades.getProperty("waiting", "1000"));
 
             try (Connection conn = DriverManager.getConnection(url, propriedades)) {
                 System.out.printf("Conexão: [%s]\n", conn.getClientInfo());
@@ -47,7 +48,7 @@ public class PostgreSQLasMQ {
                                     n.getParameter());
                         }
                     }
-                    Thread.sleep(10000);
+                    Thread.sleep(espera);
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(PostgreSQLasMQ.class.getName()).log(Level.SEVERE,

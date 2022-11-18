@@ -5,3 +5,4 @@ url=jdbc:postgresql://localhost/template1
 user=postgres
 password=
 list=lista
+waiting=10000
