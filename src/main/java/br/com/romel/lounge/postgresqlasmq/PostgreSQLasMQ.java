@@ -26,7 +26,6 @@ public class PostgreSQLasMQ {
             propriedades.load(new FileReader("conexao.properties"));
             String url = propriedades.getProperty("url", "jdbc:postgresql://localhost/template1");
             String lista = propriedades.getProperty("list", "geral");
-            int espera = Integer.parseInt(propriedades.getProperty("waiting", "1000"));
 
             try (Connection conn = DriverManager.getConnection(url, propriedades)) {
                 System.out.printf("Conexão: [%s]\n", conn.getClientInfo());
@@ -34,6 +33,10 @@ public class PostgreSQLasMQ {
                 conn.createStatement().execute(String.format("listen %s", lista));
 
                 while (true) {
+                    /**
+                     * A espera pode ser atualizada durante a execução.
+                     */
+                    int espera = Integer.parseInt(propriedades.getProperty("waiting", "100"));
                     PGNotification[] ns = ((PGConnection) conn).getNotifications(10);
 
                     if (ns != null) {
